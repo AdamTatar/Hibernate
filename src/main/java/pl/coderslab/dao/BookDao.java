@@ -1,10 +1,11 @@
 package pl.coderslab.dao;
 
-import java.util.ArrayList;
+import java.math.BigDecimal;
 import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 import javax.transaction.Transactional;
 
 import org.springframework.stereotype.Repository;
@@ -14,7 +15,7 @@ import pl.coderslab.model.Book;
 @Repository	//bardziej specyficzne niż component
 @Transactional
 public class BookDao {
-
+ 
 	@PersistenceContext
 	private EntityManager entityManager;
 	
@@ -36,14 +37,21 @@ public class BookDao {
 	
 	public List<Book> getAll(){
 
-		List<Book> list = new ArrayList<>();
 		Book book = new Book();
-		for(Long i = 0L; i<1000L; i++){
-			book = entityManager.find(Book.class, i);
-			if(book != null){
-				list.add(book);
-			}
-		}
+		Query query = entityManager.createQuery("select a from Book a"); // tu jest inna składnia niż w normalnym zapytaniu
+		// nazwa jest nie z tabeli ale z klasy
+		List<Book> list = query.getResultList();
+		return list;
+	}
+	
+	
+	public List<Book> getAllWithRating(BigDecimal rating){
+		
+		Book book = new Book();
+		Query query = entityManager.createQuery("select a from Book a where rating > :rating"); // tu jest inna składnia niż w normalnym zapytaniu
+		// nazwa jest nie z tabeli ale z klasy
+		query.setParameter("rating", rating);
+		List<Book> list = query.getResultList();
 		return list;
 	}
 	

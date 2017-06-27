@@ -1,6 +1,9 @@
 package pl.coderslab.controller;
 
-import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.persistence.Query;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -9,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import pl.coderslab.dao.AuthorDao;
-import pl.coderslab.model.Author;
+import pl.coderslab.dao.BookDao;
 import pl.coderslab.model.Author;
 
 @RestController
@@ -18,6 +21,8 @@ public class AuthorController {
 
 	@Autowired
 	private AuthorDao authorDao;
+	@Autowired
+	private BookDao bookDao;
 	
 	
 	@RequestMapping(method = RequestMethod.POST)
@@ -50,6 +55,12 @@ public class AuthorController {
 		Author author = authorDao.find(id);
 		authorDao.delete(author);
 		
+	}
+	@RequestMapping(method = RequestMethod.GET)
+	public List<Author> getAllAuthors(){
+		List<Author> authors = new ArrayList<>();
+		authors = authorDao.getAllAuthors();
+		return authors;
 	}
 	
 }
