@@ -8,6 +8,9 @@
 <a href="http://localhost:8080/Spring01Hibernate/authors/1" >/authors/1</a><br>
 <a href="http://localhost:8080/Spring01Hibernate/authors/2" >/authors/2</a><br>
 <a href="http://localhost:8080/Spring01Hibernate/publishers/2" >/publishers/2</a><br>
+<p></p>
+<a href="http://localhost:8080/Spring01Hibernate/persons/register" >/persons/register</a><br>
+
 
 
 
