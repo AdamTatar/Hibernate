@@ -26,11 +26,8 @@ public class Book {
 	private String title;
 	
 	
-	@ManyToMany(cascade	= {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.EAGER)
+	@ManyToMany(fetch = FetchType.EAGER)
 	private List<Author> authors = new ArrayList<>();
-	
-	
-	
 	
 	
 	
@@ -38,15 +35,19 @@ public class Book {
 	@Column(precision = 4, scale = 2)
 	private BigDecimal rating;
 
-	@ManyToOne(cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
+	@ManyToOne(fetch = FetchType.EAGER)
 	private Publisher publisher;
 
-	public void setPublisher(Publisher publisher) {
-		this.publisher = publisher;
-	}
+	
+
+	
 
 	public Publisher getPublisher() {
 		return publisher;
+	}
+
+	public void setPublisher(Publisher publisher) {
+		this.publisher = publisher;
 	}
 
 	@Column(columnDefinition = "TEXT")
@@ -96,9 +97,13 @@ public class Book {
 
 	@Override
 	public String toString() {
-		return "Book [id=" + id + ", title=" + title + ", author=" + authors.toString() + ", rating=" + rating + ", publisher="
+		return "Book [id=" + id + ", title=" + title + ", authors=" + authors + ", rating=" + rating + ", publisher="
 				+ publisher + ", description=" + description + "]";
 	}
+
+	
+
+	
 
 	
 	

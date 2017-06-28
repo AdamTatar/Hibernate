@@ -5,6 +5,9 @@
 <a href="http://localhost:8080/Spring01Hibernate/books/1" >/books/1</a><br>
 <a href="http://localhost:8080/Spring01Hibernate/books/2" >/books/2</a><br>
 <a href="http://localhost:8080/Spring01Hibernate/books/15" >/books/15</a><br>
+
+<a href="http://localhost:8080/Spring01Hibernate/books/add" >/books/add</a><br>
+<a href="http://localhost:8080/Spring01Hibernate/books/list" >/books/list</a><br>
 <a href="http://localhost:8080/Spring01Hibernate/authors" >/authors</a><br>
 <a href="http://localhost:8080/Spring01Hibernate/authors/add" >/authors add</a><br>
 <a href="http://localhost:8080/Spring01Hibernate/authors/1" >/authors/1</a><br>
