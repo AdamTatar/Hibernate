@@ -3,19 +3,19 @@ package pl.coderslab.controller;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.persistence.Query;
-
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
 
 import pl.coderslab.dao.AuthorDao;
 import pl.coderslab.dao.BookDao;
 import pl.coderslab.model.Author;
 
-@RestController
+@Controller
 @RequestMapping("/authors")
 public class AuthorController {
 
@@ -57,10 +57,33 @@ public class AuthorController {
 		
 	}
 	@RequestMapping(method = RequestMethod.GET)
-	public List<Author> getAllAuthors(){
+	public String getAllAuthors(Model model){
 		List<Author> authors = new ArrayList<>();
 		authors = authorDao.getAllAuthors();
-		return authors;
+		model.addAttribute("authors", authors);
+		return "authorAll";
+	}
+//	@RequestMapping(method = RequestMethod.GET)
+//	public List<Author> getAllAuthors(){
+//		List<Author> authors = new ArrayList<>();
+//		authors = authorDao.getAllAuthors();
+//		return authors;
+//	}
+
+	
+	@RequestMapping(path = "/add" , method = RequestMethod.GET)
+	public String addAuthorFromForm(Model model){
+		Author author = new Author();
+		model.addAttribute("authors", author);
+		
+		return "authorAdd";
+	}
+	@RequestMapping(path = "/add" , method = RequestMethod.POST)
+	public String addAuthorToDatabase(@ModelAttribute Author author, Model model){
+		System.out.println(author);
+		model.addAttribute("authors", author);
+		authorDao.save(author);
+		return "authorAddSuccess";
 	}
 	
 }
