@@ -38,7 +38,9 @@ public class Author {
 		return "Author [id=" + id + ", firstName=" + firstName + ", LastName=" + lastName + "]";
 	}
 	
-	
+	public String getFullAuthorName(){
+		return this.firstName+" "+this.lastName;
+	}
 
 }
 

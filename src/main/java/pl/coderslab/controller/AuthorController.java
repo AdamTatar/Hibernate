@@ -80,7 +80,6 @@ public class AuthorController {
 	}
 	@RequestMapping(path = "/add" , method = RequestMethod.POST)
 	public String addAuthorToDatabase(@ModelAttribute Author author, Model model){
-		System.out.println(author);
 		model.addAttribute("authors", author);
 		authorDao.save(author);
 		return "authorAddSuccess";
