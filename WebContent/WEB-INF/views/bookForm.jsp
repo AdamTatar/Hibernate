@@ -11,7 +11,10 @@
 	<h2>Dodaj nową książkę</h2>
 
 	 <form:form method="post" modelAttribute="book">
+	 <form:errors path="*" element="div"/>
 		Title: <form:input path="title" />
+		<br>
+		Publish date: <form:input path="publishYear" />
 		<br>
 		Description: <form:textarea path="description" />
 		<br> 

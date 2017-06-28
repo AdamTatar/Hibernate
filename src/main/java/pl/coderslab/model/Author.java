@@ -6,6 +6,10 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import org.hibernate.validator.constraints.Email;
+import org.hibernate.validator.constraints.NotBlank;
+import org.hibernate.validator.constraints.pl.PESEL;
+
 @Entity
 @Table(name = "authors")
 public class Author {
@@ -13,8 +17,22 @@ public class Author {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
+	@NotBlank
 	private String firstName;
+	@NotBlank
 	private String lastName;
+	@Email
+	private String email;
+	@PESEL
+	private String pesel;
+	
+	
+	
+	
+	
+	
+	
+	
 	public Long getId() {
 		return id;
 	}

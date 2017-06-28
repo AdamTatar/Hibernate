@@ -4,7 +4,6 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -14,6 +13,14 @@ import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+
+import org.hibernate.validator.constraints.NotEmpty;
+
+import pl.coderslab.validator.ModernDate;
 
 @Entity // robimy z JPA a nie z hibernate żeby można było przejść łatwiej nacoś
 		// ingeo niż hiberante
@@ -23,20 +30,43 @@ public class Book {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
+	@Size(min	=	5,	max	=	255)
 	private String title;
 	
-	
+	@NotEmpty
 	@ManyToMany(fetch = FetchType.EAGER)
 	private List<Author> authors = new ArrayList<>();
 	
 	
 	
-
+	@Min(1)
+	@Max(10)
 	@Column(precision = 4, scale = 2)
 	private BigDecimal rating;
 
+	@NotNull
 	@ManyToOne(fetch = FetchType.EAGER)
 	private Publisher publisher;
+
+	@ModernDate
+	private Integer publishYear;
+
+	@Size(max=600)
+	@Column(columnDefinition = "TEXT")
+	private String description;
+	
+	//gettery i settery
+	
+	
+	
+	
+	public Integer getPublishYear() {
+		return publishYear;
+	}
+
+	public void setPublishYear(Integer publishYear) {
+		this.publishYear = publishYear;
+	}
 
 	
 
@@ -50,8 +80,6 @@ public class Book {
 		this.publisher = publisher;
 	}
 
-	@Column(columnDefinition = "TEXT")
-	private String description;
 
 	public Long getId() {
 		return id;
