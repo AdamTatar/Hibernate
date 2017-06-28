@@ -29,16 +29,14 @@ public class Book {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	
-	@Size(min	=	5,	max	=	255)
+
+	@Size(min = 5, max = 255)
 	private String title;
-	
+
 	@NotEmpty
 	@ManyToMany(fetch = FetchType.EAGER)
 	private List<Author> authors = new ArrayList<>();
-	
-	
-	
+
 	@Min(1)
 	@Max(10)
 	@Column(precision = 4, scale = 2)
@@ -51,15 +49,12 @@ public class Book {
 	@ModernDate
 	private Integer publishYear;
 
-	@Size(max=600)
+	@Size(max = 600)
 	@Column(columnDefinition = "TEXT")
 	private String description;
-	
-	//gettery i settery
-	
-	
-	
-	
+
+	// gettery i settery
+
 	public Integer getPublishYear() {
 		return publishYear;
 	}
@@ -68,10 +63,6 @@ public class Book {
 		this.publishYear = publishYear;
 	}
 
-	
-
-	
-
 	public Publisher getPublisher() {
 		return publisher;
 	}
@@ -79,7 +70,6 @@ public class Book {
 	public void setPublisher(Publisher publisher) {
 		this.publisher = publisher;
 	}
-
 
 	public Long getId() {
 		return id;
@@ -97,8 +87,6 @@ public class Book {
 		this.title = title;
 	}
 
-	
-
 	public List<Author> getAuthors() {
 		return authors;
 	}
@@ -114,7 +102,7 @@ public class Book {
 	public void setRating(BigDecimal rating) {
 		this.rating = rating;
 	}
-	
+
 	public String getDescription() {
 		return description;
 	}
@@ -129,10 +117,4 @@ public class Book {
 				+ publisher + ", description=" + description + "]";
 	}
 
-	
-
-	
-
-	
-	
 }
