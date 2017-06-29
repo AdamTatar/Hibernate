@@ -8,7 +8,9 @@
 </head>
 <body>
 <h2>Success!</h2>
-${authors.firstName}
-${authors.lastName}
+${author.firstName}
+${author.lastName}
+${author.email}
+${author.pesel}
 </body>
 </html>

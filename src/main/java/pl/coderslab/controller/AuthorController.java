@@ -3,9 +3,12 @@ package pl.coderslab.controller;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -74,13 +77,16 @@ public class AuthorController {
 	@RequestMapping(path = "/add" , method = RequestMethod.GET)
 	public String addAuthorFromForm(Model model){
 		Author author = new Author();
-		model.addAttribute("authors", author);
+		model.addAttribute("author", author);
 		
 		return "authorAdd";
 	}
 	@RequestMapping(path = "/add" , method = RequestMethod.POST)
-	public String addAuthorToDatabase(@ModelAttribute Author author, Model model){
-		model.addAttribute("authors", author);
+	public String addAuthorToDatabase(@Valid @ModelAttribute Author author,BindingResult result, Model model){
+		if (result.hasErrors()) {
+			return "authorAdd";
+		}
+		model.addAttribute("author", author);
 		authorDao.save(author);
 		return "authorAddSuccess";
 	}

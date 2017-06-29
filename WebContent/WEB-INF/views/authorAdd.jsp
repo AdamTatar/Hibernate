@@ -10,10 +10,15 @@
 <body>
 	<h2>Dodaj nowego autora</h2>
 
-	<form:form method="post" modelAttribute="authors">
+	<form:form method="post" modelAttribute="author">
+	<form:errors path="*" element="div"/>
 		First name: <form:input path="firstName" />
 		<br>
 		Last name: <form:input path="lastName" />
+		<br> 
+		Email: <form:input path="email" />
+		<br> 
+		PESEL: <form:input path="pesel" />
 		<br> 
 		<input type="submit" value="Submit">
 	</form:form>

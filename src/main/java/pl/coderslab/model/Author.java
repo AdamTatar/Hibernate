@@ -33,6 +33,18 @@ public class Author {
 	
 	
 	
+	public String getEmail() {
+		return email;
+	}
+	public void setEmail(String email) {
+		this.email = email;
+	}
+	public String getPesel() {
+		return pesel;
+	}
+	public void setPesel(String pesel) {
+		this.pesel = pesel;
+	}
 	public Long getId() {
 		return id;
 	}
