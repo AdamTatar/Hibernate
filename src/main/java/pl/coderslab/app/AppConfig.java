@@ -5,9 +5,11 @@ import java.util.Locale;
 import javax.persistence.EntityManagerFactory;
 import javax.validation.Validator;
 
+import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.support.ResourceBundleMessageSource;
 import org.springframework.format.FormatterRegistry;
 import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.LocalEntityManagerFactoryBean;
@@ -80,4 +82,14 @@ public class AppConfig extends WebMvcConfigurerAdapter {
 	public Validator validator() {
 		return new LocalValidatorFactoryBean();
 	}
+	
+	@Bean
+	public MessageSource messageSource() {
+		ResourceBundleMessageSource messageSource = new ResourceBundleMessageSource();
+		messageSource.setBasename("messages");	// teraz mogę zrobić plik messages.properties i tam obsługiwać błędy
+		// na przykład typeMischmatch
+		// w docs spring DefaultMessageCodesResolver
+		return messageSource;
+}
+	
 }
