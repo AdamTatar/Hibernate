@@ -14,18 +14,10 @@
 	 <form:errors path="*" element="div"/>
 		Title: <form:input path="title" />
 		<br>
-		Publish date: <form:input path="publishYear" />
-		<br>
+		
 		Description: <form:textarea path="description" />
 		<br> 
-		Rating: <form:input path="rating" />
-		<br>
-		Publisher: <form:select path="publisher.id" items="${publishers}" itemLabel="name" itemValue="id" />
-		<br>
-		Proposition: <form:checkbox path="proposition" />
-		<br>
-		Authors: <form:select multiple="true" path="authors" items="${authors}" itemLabel="fullAuthorName" itemValue="id" />
-		<br>
+		<form:hidden path="proposition" value="true"/>
 		
 		<input type="submit" value="Submit">
 	</form:form> 

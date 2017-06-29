@@ -13,14 +13,19 @@ import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.AssertFalse;
+import javax.validation.constraints.AssertTrue;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import javax.validation.groups.Default;
 
 import org.hibernate.validator.constraints.NotEmpty;
 
+import pl.coderslab.validator.BookValidationGroup;
 import pl.coderslab.validator.ModernDate;
+import pl.coderslab.validator.PropositionValidationGroup;
 
 @Entity // robimy z JPA a nie z hibernate żeby można było przejść łatwiej nacoś
 		// ingeo niż hiberante
@@ -30,30 +35,46 @@ public class Book {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
-	@Size(min = 5, max = 255)
+	@Size(min = 5, max = 255, groups={BookValidationGroup.class, Default.class})
 	private String title;
 
-	@NotEmpty
+	@NotEmpty(groups=BookValidationGroup.class)
 	@ManyToMany(fetch = FetchType.EAGER)
 	private List<Author> authors = new ArrayList<>();
 
-	@Min(1)
-	@Max(10)
+	@Min(value=1, groups=BookValidationGroup.class)
+	@Max(value=10, groups=BookValidationGroup.class)
 	@Column(precision = 4, scale = 2)
 	private BigDecimal rating;
 
-	@NotNull
+	@NotNull(groups=BookValidationGroup.class)
 	@ManyToOne(fetch = FetchType.EAGER)
 	private Publisher publisher;
 
-	@ModernDate
+	@ModernDate(groups=BookValidationGroup.class)
 	private Integer publishYear;
 
 	@Size(max = 600)
 	@Column(columnDefinition = "TEXT")
 	private String description;
+	
+	@AssertFalse(groups=BookValidationGroup.class)
+	@AssertTrue(groups=PropositionValidationGroup.class)
+	private Boolean proposition;
+	
+	
+	
+	
 
 	// gettery i settery
+
+	public Boolean getProposition() {
+		return proposition;
+	}
+
+	public void setProposition(Boolean proposition) {
+		this.proposition = proposition;
+	}
 
 	public Integer getPublishYear() {
 		return publishYear;

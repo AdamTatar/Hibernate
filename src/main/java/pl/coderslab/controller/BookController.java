@@ -4,12 +4,13 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.validation.Valid;
+import javax.validation.groups.Default;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,6 +23,7 @@ import pl.coderslab.dao.PublisherDao;
 import pl.coderslab.model.Author;
 import pl.coderslab.model.Book;
 import pl.coderslab.model.Publisher;
+import pl.coderslab.validator.BookValidationGroup;
 
 @Controller
 @RequestMapping("/books")
@@ -56,7 +58,7 @@ public class BookController {
 	}
 
 	@RequestMapping(path = "/add", method = RequestMethod.POST)
-	public String processAddBookForm(@Valid Book book, BindingResult result) {
+	public String processAddBookForm(@Validated({BookValidationGroup.class, Default.class}) Book book, BindingResult result) {
 
 		if (result.hasErrors()) {
 			return "bookForm";

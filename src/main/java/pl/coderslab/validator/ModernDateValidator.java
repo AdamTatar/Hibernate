@@ -13,8 +13,7 @@ public class ModernDateValidator implements ConstraintValidator<ModernDate, Inte
 
 	@Override
 	public boolean isValid(Integer value, ConstraintValidatorContext context) {
-
-		return value>1950;		// tu jest nasz warunek
+		return value!=null && value>1950;		// tu jest nasz warunek
 	}
 
 }
