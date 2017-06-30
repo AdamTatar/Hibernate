@@ -18,6 +18,7 @@
 
 <a href="http://localhost:8080/Spring01Hibernate/publishers/2" >/publishers/2</a><br>
 <a href="http://localhost:8080/Spring01Hibernate/publishers/add" >/publishers/add</a><br>
+<a href="http://localhost:8080/Spring01Hibernate/propositions/add" >/propositions/add</a><br>
 <p></p>
 <a href="http://localhost:8080/Spring01Hibernate/persons/register" >/persons/register</a><br>
 <a href="http://localhost:8080/Spring01Hibernate/personsDetails" >/personsDetails</a><br>

@@ -1,6 +1,10 @@
 <html>
 <body>
 <h2>Spring01Hibernate</h2>
+<a href="http://localhost:8080/Spring01Hibernate/books/rating?rating=6" >/books with rating greater than 6</a><br>
+<a href="http://localhost:8080/Spring01Hibernate/books/?title=Autostrada" >/books with title like 'Autostrada'</a><br>
+<a href="http://localhost:8080/Spring01Hibernate/books/pub1" >/books with publisher with NIP = 7831688882</a><br>
+<a href="http://localhost:8080/Spring01Hibernate/books/rat3to5" >/books with rating from 3 to 5</a><br>
 <a href="http://localhost:8080/Spring01Hibernate/books/all" >/books/all</a><br>
 <a href="http://localhost:8080/Spring01Hibernate/books/1" >/books/1</a><br>
 

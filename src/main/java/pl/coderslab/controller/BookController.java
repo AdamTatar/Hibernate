@@ -4,13 +4,12 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.validation.groups.Default;
+import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,19 +17,27 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import pl.coderslab.dao.AuthorDao;
-import pl.coderslab.dao.BookDao;
 import pl.coderslab.dao.PublisherDao;
 import pl.coderslab.model.Author;
 import pl.coderslab.model.Book;
 import pl.coderslab.model.Publisher;
-import pl.coderslab.validator.BookValidationGroup;
+import pl.coderslab.repository.BookRepository;
+import pl.coderslab.repository.PublisherRepository;
 
 @Controller
 @RequestMapping("/books")
 public class BookController {
 
+//	@Autowired
+//	private BookDao bookDao;
+	
+	
 	@Autowired
-	private BookDao bookDao;
+	private BookRepository bookRepository;
+	
+	@Autowired
+	private PublisherRepository publisherRepository;
+	
 	@Autowired
 	private AuthorDao authorDao;
 	@Autowired
@@ -58,37 +65,38 @@ public class BookController {
 	}
 
 	@RequestMapping(path = "/add", method = RequestMethod.POST)
-	public String processAddBookForm(@Validated({BookValidationGroup.class, Default.class}) Book book, BindingResult result) {
+//	public String processAddBookForm(@Validated({BookValidationGroup.class, Default.class}) Book book, BindingResult result) {
+	public String processAddBookForm(@Valid Book book, BindingResult result) {
 
 		if (result.hasErrors()) {
 			return "bookForm";
 		}
 
-		bookDao.save(book);
+		bookRepository.save(book);
 		return "redirect:/books/list";
 	}
 
 	@RequestMapping(path = "/edit/{id}", method = RequestMethod.GET)
 	public String showEditBookForm(Model model, @PathVariable Long id) {
-		model.addAttribute("book", bookDao.find(id));
+		model.addAttribute("book", bookRepository.findOne(id));
 		return "bookForm";
 	}
 
 	@RequestMapping(path = "/edit/{id}", method = RequestMethod.POST)
 	public String editBookForm(Model model, @ModelAttribute Book book) {
-		bookDao.update(book);
+		bookRepository.save(book);
 		return "redirect:/books/list";
 	}
 
 	@RequestMapping(path = "/delete/{id}", method = RequestMethod.GET)
 	public String showDeleteBookForm(Model model, @PathVariable Long id) {
-		model.addAttribute("book", bookDao.find(id));
+		model.addAttribute("book", bookRepository.findOne(id));
 		return "bookDelete";
 	}
 
 	@RequestMapping(path = "/delete/{id}", method = RequestMethod.POST)
 	public String deleteBookForm(Model model, @ModelAttribute Book book) {
-		bookDao.update(book);
+		bookRepository.save(book);
 		return "redirect:/books/list";
 	}
 
@@ -100,14 +108,14 @@ public class BookController {
 	@RequestMapping(path = "/delete/deleteNow/{id}", method = RequestMethod.GET)
 	public String deleteNowBook(Model model, @PathVariable Long id) {
 		Book book = new Book();
-		book = bookDao.find(id);
-		bookDao.delete(book);
+		book = bookRepository.findOne(id);
+		bookRepository.delete(book);
 		return "redirect:/books/list";
 	}
 
 	@RequestMapping(path = "/list", method = RequestMethod.GET)
 	public String showAllBooks(Model model) {
-		model.addAttribute("books", bookDao.getAll());
+		model.addAttribute("books", bookRepository.findAll());
 		return "booksList";
 	}
 
@@ -139,7 +147,7 @@ public class BookController {
 
 		book.setRating(BigDecimal.valueOf(65, 1));
 
-		bookDao.save(book);
+		bookRepository.save(book);
 
 		return book;
 
@@ -147,7 +155,7 @@ public class BookController {
 
 	@RequestMapping(path = "/{id}", method = RequestMethod.GET)
 	public Book getBook(@PathVariable Long id) {
-		Book book = bookDao.find(id);
+		Book book = bookRepository.findOne(id);
 
 		return book;
 
@@ -155,29 +163,63 @@ public class BookController {
 
 	@RequestMapping(path = "/{id}", method = RequestMethod.PUT)
 	public Book updateBook(@PathVariable Long id) {
-		Book book = bookDao.find(id);
+		Book book = bookRepository.findOne(id);
 		book.setDescription(book.getDescription() + " updated");
-		bookDao.update(book);
+		bookRepository.save(book);
 		return book;
 
 	}
 
 	@RequestMapping(path = "/{id}", method = RequestMethod.DELETE)
 	public void deleteBook(@PathVariable Long id) {
-		Book book = bookDao.find(id);
-		bookDao.delete(book);
+		Book book = bookRepository.findOne(id);
+		bookRepository.delete(book);
 
 	}
 
 	@RequestMapping(method = RequestMethod.GET)
 	public List<Book> getAllBooks() {
-		return bookDao.getAll();
+		return bookRepository.findAll();
 
 	}
 
-	@RequestMapping(method = RequestMethod.GET, params = "rating")
-	public List<Book> getAllBooksWithRating(@RequestParam BigDecimal rating) {
-		return bookDao.getAllWithRating(rating);
+	@RequestMapping(path="/rating", method = RequestMethod.GET)
+	public String getAllBooksWithRating(@RequestParam BigDecimal rating, Model model) {
+//		BigDecimal rating = BigDecimal.valueOf(5.5);
+		List<Book> books = bookRepository.findByRatingGreaterThanOrderByRating(rating);
+		
+		model.addAttribute("books", books);
+		return "booksList";
+		
+	}
+	@RequestMapping(path="/", method = RequestMethod.GET)
+	public String getBookByTitle(@RequestParam String title, Model model) {
+		List<Book> books = bookRepository.findByTitle(title);
+		
+		model.addAttribute("books", books);
+		return "booksList";
+		
+	}
+	@RequestMapping(path="/pub1", method = RequestMethod.GET)
+	public String getBookByPublisher(Model model) {
+		Publisher p = new Publisher();
+		p = publisherRepository.findFirstByNip("7831688882");
+		List<Book> books = bookRepository.findByPublisher(p);
+		
+		model.addAttribute("books", books);
+		return "booksList";
+		
+	}
+	
+	// znajduje ksiazki z ratingiem 3 - 5
+	@RequestMapping(path="/rat3to5", method = RequestMethod.GET)
+	public String getBooks3To5(Model model) {
+		Publisher p = new Publisher();
+		List<Book> books = bookRepository.findBooksWithRatingBeetween3And5();
+		
+		model.addAttribute("books", books);
+		return "booksList";
+		
 	}
 
 }
